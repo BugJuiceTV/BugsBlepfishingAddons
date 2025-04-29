@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="Diamond:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/Diamond_jar</output-path>
+    <root id="archive" name="BugBlepfishingAddon.jar">
+      <element id="module-output" name="Diamond" />
+      <element id="file-copy" path="$PROJECT_DIR$/src/main/resources/plugin.yml" />
+    </root>
+  </artifact>
+</component>
