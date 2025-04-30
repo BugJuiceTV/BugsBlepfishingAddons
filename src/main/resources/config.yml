@@ -1,0 +1,37 @@
+# ===============================================
+# Configuration File for BugsBlepFishingAddon
+# Customize plugin behavior and feature toggles
+# ===============================================
+
+# -----------------------------------------------
+# Message Display Settings
+# -----------------------------------------------
+
+# Show a title when the player catches a fish.
+enable-title: true
+
+# Show an action bar message during fishing events (e.g., when a fish bites or escapes).
+enable-actionbar: true
+
+# -----------------------------------------------
+# Sound Settings
+# -----------------------------------------------
+
+# Play a "level up" sound when catching a fish.
+enable-sound-levelup: true
+
+# Play a "splash" sound during fishing events.
+enable-sound-splash: true
+
+# Play a "fail" sound if the fish gets away.
+enable-sound-fail: true
+
+# -----------------------------------------------
+# Gameplay Settings
+# -----------------------------------------------
+
+# Enable bobber movement (visual fishing float effect).
+enable-bobber-movement: true
+
+# Instantly teleport caught fish to the player's inventory.
+teleport-fish-to-inventory: true

@@ -1,0 +1,9 @@
+name: BugsBlepFishingAddon
+version: '1.0-SNAPSHOT'
+main: bug.example.diamond.Diamond
+api-version: '1.21'
+
+commands:
+  configgui:
+    description: Opens the config GUI
+    usage: /configgui
