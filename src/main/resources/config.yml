@@ -13,6 +13,9 @@ enable-title: true
 # Show an action bar message during fishing events (e.g., when a fish bites or escapes).
 enable-actionbar: true
 
+# Show a title when a fish bites the hook.
+enable-bite-message: true
+
 # -----------------------------------------------
 # Sound Settings
 # -----------------------------------------------
@@ -38,3 +41,4 @@ teleport-fish-to-inventory: true
 
 # Show a message when the fish gets away.
 enable-fish-got-away-message: true
+

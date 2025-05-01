@@ -1,3 +1,5 @@
 enable-fish-left-on-ground: false
 enable-fish-got-away-message: true
+enable-fish-approaching-message: true
+
 

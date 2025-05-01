@@ -28,6 +28,7 @@ public class ConfigGUI implements Listener {
         // Update the toggle button in the GUI
         gui.setItem(6, createToggleItem(config.getBoolean("show-teleport-message"), "Toggle Teleport Message", "Click to toggle teleport/drop message"));
         gui.setItem(7, createToggleItem(config.getBoolean("enable-fish-got-away-message"), "Toggle Fish Got Away Message", "Click to toggle the fish got away message"));
+        gui.setItem(8, createToggleItem(config.getBoolean("enable-bite-message"), "Toggle Bite Message", "Click to toggle the fish bite message"));
         // Exit button
         gui.setItem(17, createItem(Material.BARRIER, "Exit Config", null));
 
@@ -100,6 +101,12 @@ public class ConfigGUI implements Listener {
                 break;
             case "Toggle Teleport Message":
                 toggleConfigOption(player, config, "show-teleport-message");
+                break;
+            case "Toggle Fish Approaching Message":
+                toggleConfigOption(player, config, "enable-fish-approaching-message");
+                break;
+            case "Toggle Bite Message":
+                toggleConfigOption(player, config, "enable-bite-message");
                 break;
             case "Exit Config":
                 player.closeInventory();

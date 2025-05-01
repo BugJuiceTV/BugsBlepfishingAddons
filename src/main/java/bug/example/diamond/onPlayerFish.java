@@ -30,11 +30,17 @@ public class onPlayerFish implements Listener {
 
         boolean enableBobberMovement = plugin.getConfig().getBoolean("enable-bobber-movement", true);
         boolean teleportFishToInventory = plugin.getConfig().getBoolean("teleport-fish-to-inventory", true);
+        boolean enableBiteMessage = plugin.getConfig().getBoolean("enable-bite-message", false);
 
         switch (event.getState()) {
             case BITE:
-                if (hook != null && enableBobberMovement) {
-                    simulateBobberMovement(hook, player);
+                if (hook != null) {
+                    if (enableBiteMessage) {
+                        player.sendTitle("A fish is biting!", "Get ready to reel it in!", 10, 70, 20);
+                    }
+                    if (enableBobberMovement) {
+                        simulateBobberMovement(hook, player);
+                    }
                 }
                 break;
 
@@ -57,14 +63,33 @@ public class onPlayerFish implements Listener {
                 }
                 break;
 
+            case FISHING:
+                if (hook != null && hook.isInWater()) {
+                    Bukkit.getLogger().info("FISHING state triggered for player: " + player.getName());
+                }
+                break;
+
             default:
                 break;
         }
     }
 
+    private void handleBiteInteraction(Player player) {
+        boolean enableBiteMessage = plugin.getConfig().getBoolean("enable-bite-message", false);
+
+        if (!enableBiteMessage) {
+            return;
+        }
+
+        player.sendTitle("A fish is biting!", "Get ready to reel it in!", 10, 70, 20);
+    }
+
     private void handleFailedAttempt(PlayerFishEvent event, boolean enableActionBar, boolean enableSoundFail) {
         Player player = event.getPlayer();
         boolean enableFishGotAwayMessage = plugin.getConfig().getBoolean("enable-fish-got-away-message");
+
+        // Clear the title when the fish gets away
+        player.resetTitle();
 
         if (enableActionBar) {
             player.sendActionBar("The fish got away!");
@@ -76,7 +101,6 @@ public class onPlayerFish implements Listener {
             player.sendMessage("The fish got away!");
         }
     }
-
 
     private void handleCaughtFish(Player player, Item item, boolean teleportFishToInventory) {
         ItemStack caughtItem = item.getItemStack();

@@ -63,7 +63,10 @@ public final class Diamond extends JavaPlugin implements Listener {
                 break;
 
             case FAILED_ATTEMPT:
-                handleFailedAttempt(event, enableActionBar, enableSoundFail);
+                // Ensure handleFailedAttempt is only called once
+                if (enableActionBar || enableSoundFail) {
+                    handleFailedAttempt(event, enableActionBar, enableSoundFail);
+                }
                 break;
 
             default:
@@ -91,8 +94,6 @@ public final class Diamond extends JavaPlugin implements Listener {
         if (enableActionBar) {
             event.getPlayer().sendActionBar("The fish got away!");
         }
-        if (enableSoundFail) {
-            event.getPlayer().playSound(event.getPlayer().getLocation(), "minecraft:entity.villager.no", 0.2f, 1.0f);
-        }
+
     }
 }
