@@ -44,7 +44,10 @@ public class onPlayerFish implements Listener {
                     if (task != null) {
                         task.cancel();
                     }
-                    player.sendMessage("The fish got away!");
+                    handleFailedAttempt(event,
+                            plugin.getConfig().getBoolean("enable-actionbar"),
+                            plugin.getConfig().getBoolean("enable-sound-fail")
+                    );
                 }
                 break;
 
@@ -59,19 +62,42 @@ public class onPlayerFish implements Listener {
         }
     }
 
+    private void handleFailedAttempt(PlayerFishEvent event, boolean enableActionBar, boolean enableSoundFail) {
+        Player player = event.getPlayer();
+        boolean enableFishGotAwayMessage = plugin.getConfig().getBoolean("enable-fish-got-away-message");
+
+        if (enableActionBar) {
+            player.sendActionBar("The fish got away!");
+        }
+        if (enableSoundFail) {
+            player.playSound(player.getLocation(), "minecraft:entity.villager.no", 0.2f, 1.0f);
+        }
+        if (enableFishGotAwayMessage) {
+            player.sendMessage("The fish got away!");
+        }
+    }
+
+
     private void handleCaughtFish(Player player, Item item, boolean teleportFishToInventory) {
         ItemStack caughtItem = item.getItemStack();
+        boolean showTeleportMessage = plugin.getConfig().getBoolean("show-teleport-message");
 
         if (teleportFishToInventory) {
             if (player.getInventory().firstEmpty() != -1) {
                 player.getInventory().addItem(caughtItem);
                 item.remove();
-                player.sendMessage("You caught a fish and it was added to your inventory!");
+                if (showTeleportMessage) {
+                    player.sendMessage("The fish was teleported to your inventory.");
+                }
             } else {
-                player.sendMessage("Your inventory is full! The fish dropped on the ground.");
+                if (showTeleportMessage) {
+                    player.sendMessage("Your inventory is full! The fish dropped on the ground.");
+                }
             }
         } else {
-            player.sendMessage("You caught a fish, but it was left on the ground!");
+            if (showTeleportMessage) {
+                player.sendMessage("The fish was dropped on the ground.");
+            }
         }
     }
 

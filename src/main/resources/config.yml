@@ -35,3 +35,6 @@ enable-bobber-movement: true
 
 # Instantly teleport caught fish to the player's inventory.
 teleport-fish-to-inventory: true
+
+# Show a message when the fish gets away.
+enable-fish-got-away-message: true
