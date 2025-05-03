@@ -68,5 +68,10 @@
             <version>1.21.3-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>com.kunfury</groupId>
+            <artifactId>blep-fishing</artifactId>
+            <version>1.10.6</version>
+        </dependency>
     </dependencies>
 </project>

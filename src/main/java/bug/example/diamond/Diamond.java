@@ -76,6 +76,7 @@ public final class Diamond extends JavaPlugin implements Listener {
 
     private void handleCaughtFish(PlayerFishEvent event, boolean enableTitle, boolean enableSoundLevelUp) {
         if (enableTitle) {
+            event.getPlayer().resetTitle(); // Clear any existing titles
             event.getPlayer().sendTitle("Fish Caught!", "Great job!", 10, 70, 20);
         }
         if (enableSoundLevelUp) {
