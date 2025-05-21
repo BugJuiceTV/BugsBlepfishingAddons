@@ -9,3 +9,26 @@ commands:
   configgui:
     description: Opens the config GUI
     usage: /configgui
+
+  openrodshop: # Ensure this command is defined
+    description: Opens the Fishing Rod Shop GUI
+    usage: /openrodshop
+    permission: bugfishing.openrodshop
+    aliases: [rodshop, bf rod]
+
+  bfreload:
+    description: Reloads the BugsBlepFishingAddon configuration
+    usage: /bfreload
+    permission: bugfishing.admin.reload
+    aliases: [bfr, fishreload]
+
+permissions:
+  bugfishing.openrodshop:
+    description: Allows players to open the fishing rod shop
+    default: true
+  bugfishing.admin.addrod:
+    description: Allows players to add new fishing rods to the shop
+    default: op
+  bugfishing.admin.reload:
+    description: Allows players to reload the plugin configuration
+    default: op

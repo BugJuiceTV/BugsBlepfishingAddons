@@ -14,6 +14,10 @@ public class ConfigGUI implements Listener {
     }
 
     public void openConfigGUI(Player player) {
+        openConfigGUI(player, true);
+    }
+
+    public void openConfigGUI(Player player, boolean playSound) {
         FileConfiguration config = plugin.getConfig();
         Inventory gui = Bukkit.createInventory(null, 18, "Config Settings");
 
@@ -32,8 +36,10 @@ public class ConfigGUI implements Listener {
         // Exit button
         gui.setItem(17, createItem(Material.BARRIER, "Exit Config", null));
 
-        // Play open sound
-        player.playSound(player.getLocation(), Sound.UI_BUTTON_CLICK, 0.5f, 1.0f);
+        // Play open sound only if requested
+        if (playSound) {
+            player.playSound(player.getLocation(), Sound.UI_BUTTON_CLICK, 0.5f, 1.0f);
+        }
         player.openInventory(gui);
     }
 
@@ -133,6 +139,6 @@ public class ConfigGUI implements Listener {
         boolean newValue = !config.getBoolean(key);
         config.set(key, newValue);
         plugin.saveConfig();
-        openConfigGUI(player); // Refresh the GUI
+        openConfigGUI(player, false); // Refresh the GUI without playing sound
     }
 }

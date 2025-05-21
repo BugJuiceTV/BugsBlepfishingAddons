@@ -8,20 +8,20 @@
 # -----------------------------------------------
 
 # Show a title when the player catches a fish.
-enable-title: true
+enable-title: false
 
 # Show an action bar message during fishing events (e.g., when a fish bites or escapes).
-enable-actionbar: true
+enable-actionbar: false
 
 # Show a title when a fish bites the hook.
-enable-bite-message: true
+enable-bite-message: false
 
 # -----------------------------------------------
 # Sound Settings
 # -----------------------------------------------
 
 # Play a "level up" sound when catching a fish.
-enable-sound-levelup: true
+enable-sound-levelup: false
 
 # Play a "splash" sound during fishing events.
 enable-sound-splash: true
@@ -37,8 +37,52 @@ enable-sound-fail: true
 enable-bobber-movement: true
 
 # Instantly teleport caught fish to the player's inventory.
-teleport-fish-to-inventory: true
+teleport-fish-to-inventory: false
 
 # Show a message when the fish gets away.
-enable-fish-got-away-message: true
+enable-fish-got-away-message: false
+show-teleport-message: false
+# Shop configuration
+# -----------------------------------------------
+# Fishing Rod Shop Configuration
+# -----------------------------------------------
+# Define the items available in the fishing rod shop
+# Each item can have a name, price, custom model data, and permission
+# Example:
+#   "Example fishing rod":
+#     price: 1000
+#     customModelData: 0
+#     permission: bugfishing.buy.example
+#   "Another fishing rod":
+#     price: 2000
+#     customModelData: 1
+#     permission: bugfishing.buy.another
+shop:
+  "Example fishing rod":
+    price: 1000
+    customModelData: 0
+    permission: bugfishing.buy.example
+    lore:
+      - "&7A basic fishing rod"
+      - "&7Perfect for beginners"
+      - "&7Price: &6${PRICE}"
+      - "&7Required permission: &e{PERMISSION}"
 
+# Command aliases configuration
+commands:
+  openrodshop:
+    aliases:
+      - "rodshop"
+      - "rods"
+  bfreload:
+    aliases:
+      - "bfr"
+      - "bugfishreload"
+
+permissions:
+  # Permission to open the fishing rod shop
+  bugfishing.openrodshop: true
+  # Permission to buy items from the shop
+  bugfishing.buy.example: true
+  # Permission to add new fishing rods to the shop
+  bugfishing.admin.addrod: false

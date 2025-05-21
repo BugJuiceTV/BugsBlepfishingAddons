@@ -4,35 +4,83 @@ import org.bukkit.entity.FishHook;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerFishEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.Sound; // Add this import
+import org.bukkit.Sound;
+import org.bukkit.command.CommandExecutor;
+import net.milkbowl.vault.economy.Economy;
+
+import java.util.Map;
+import java.util.UUID;
 
 public final class Diamond extends JavaPlugin implements Listener {
 
     private ConfigGUI configGUI;
+    private Economy economy;
 
     @Override
     public void onEnable() {
         saveDefaultConfig();
 
+        // Initialize Vault economy
+        if (!setupEconomy()) {
+            getLogger().severe("Vault economy not found! Disabling plugin.");
+            getServer().getPluginManager().disablePlugin(this);
+            return;
+        }
+
         // Initialize and register ConfigGUI
         configGUI = new ConfigGUI(this);
         getServer().getPluginManager().registerEvents(configGUI, this);
 
-        // Register this class as a listener
-        getServer().getPluginManager().registerEvents(this, this);
+        // Register FishingRodShopGUI
+        FishingRodShopGUI fishingRodShopGUI = new FishingRodShopGUI(this, economy);
+        getServer().getPluginManager().registerEvents(fishingRodShopGUI, this);
 
-        // Register the onPlayerFish event listener with the plugin instance
-        getServer().getPluginManager().registerEvents(new onPlayerFish(this), this);
-
-        // Register the command executor
+        // Register commands
         if (getCommand("configgui") != null) {
             getCommand("configgui").setExecutor(new ConfigGUICommand(configGUI));
         }
+        if (getCommand("openrodshop") != null) { // Register the openrodshop command
+            getCommand("openrodshop").setExecutor(new RodShopCommand(fishingRodShopGUI));
+            registerCustomAliases("openrodshop");
+        }
+        if (getCommand("bfreload") != null) { // Register the bfreload command
+            getCommand("bfreload").setExecutor(new ReloadCommand(this));
+            registerCustomAliases("bfreload");
+        }
+
+        // Register the onPlayerFish event listener
+        getServer().getPluginManager().registerEvents(new onPlayerFish(this), this);
+    }
+
+    private boolean setupEconomy() {
+        if (getServer().getPluginManager().getPlugin("Vault") == null) {
+            return false;
+        }
+        var rsp = getServer().getServicesManager().getRegistration(Economy.class);
+        if (rsp == null) {
+            return false;
+        }
+        economy = rsp.getProvider();
+        return economy != null;
     }
 
     @Override
     public void onDisable() {
+        // Plugin shutdown logic
+    }
+
+    /**
+     * Reloads the plugin configuration and refreshes all plugin components
+     */
+    @Override
+    public void reloadConfig() {
+        // Reload the configuration file
+        super.reloadConfig();
+
+        // Log that the configuration has been reloaded
+        getLogger().info("BugsBlepFishingAddon configuration reloaded");
     }
 
     @EventHandler
@@ -96,5 +144,20 @@ public final class Diamond extends JavaPlugin implements Listener {
             event.getPlayer().sendActionBar("The fish got away!");
         }
 
+    }
+
+    /**
+     * Registers custom command aliases from the config.yml file
+     * @param commandName The name of the command to register aliases for
+     */
+    private void registerCustomAliases(String commandName) {
+        if (!getConfig().contains("commands." + commandName + ".aliases")) {
+            return;
+        }
+
+        for (String alias : getConfig().getStringList("commands." + commandName + ".aliases")) {
+            getCommand(commandName).getAliases().add(alias);
+            getLogger().info("Registered custom alias '" + alias + "' for command '" + commandName + "'");
+        }
     }
 }
